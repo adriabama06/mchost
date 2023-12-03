@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server: ...</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 5%;
+        }
+        .inicio {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            margin-left: 16px;
+        }
+        .inicio:hover {
+            opacity: 0.8;
+        }
+        .options {
+            margin-top: 32px;
+            border: 3px solid #ff339c;
+            width: 7%;
+            position: fixed;
+        }
+        .options a {
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: bold;
+            display: inline-block;
+            color: black;
+            margin-left: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
+        .serverinfo {
+            margin-left: 10%;
+            border: 3px solid #00e6f7;
+            width: 80%;
+        }
+        .serverinfo h1 {
+            font-weight: bold;
+            text-align: center;
+        }
+        .start {
+            transition: 0.8s;
+            font-weight: bold;
+            font-size: 28px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 3px solid #000000;
+            padding: 14px 20px;
+            cursor: pointer;
+            outline: none;
+            margin-left: 85%;
+            margin-bottom: 2%;
+        }
+        .start:hover {
+            transition: 0.8s;
+            background-color: #ff8b8b;
+        }
+        @media screen and (max-width: 400px) {
+            body {
+                margin-top: 10%;
+            }
+            .serverinfo {
+                margin-top: 10%;
+                margin-left: 10%;
+                border: 3px solid #00e6f7;
+                width: 80%;
+            }
+            .serverinfo h1 {
+                font-size: 150%;
+            }
+            .start {
+                font-size: 16px;
+                padding: 14px 20px;
+                outline: none;
+                margin-left: 60%;
+                margin-top: 0%;
+            }
+            .options {
+                top: 50%;
+                left: 10%;
+                border: 3px solid #ff339c;
+                width: 30%;
+                position: absolute;
+            }
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = io();
+        /**
+         * @type {}
+         */
+        var server = {};
+        function start_server() {
+            socket.emit('start', server.name);
+        };
+        window.onload = async function () {
+            document.getElementById('consola').setAttribute('href', window.location.pathname+'/consola');
+            var name = (function() {
+                var i = window.location.pathname.split('/');
+                return i[i.length-1];
+            })();
+            var req = new XMLHttpRequest();
+            req.open('GET', window.location.origin+'/api/server/'+name);
+            req.send();
+            function loaded(e) {
+                if(req.response) {
+                    server = JSON.parse(req.response);
+                    var h1 = document.createElement("h1");
+                    h1.innerHTML = `<h1>${server.name} - ${window.location.hostname}:${server.propetiles.serverport}</h1>`;
+                    document.getElementById('servername').appendChild(h1);
+                };
+            };
+
+            req.addEventListener("loadend", loaded, false);
+
+            socket.on('log', async ({name, message}) => {
+                console.log(message);
+            });
+        };
+    </script>
+    <a class="inicio" href="/">Inicio</a>
+    <div class="options">
+        <a href="#">Inicio</a>
+        <a id="consola" href="#">Consola</a>
+    </div>
+    <div class="serverinfo" id="serverinfo">
+        <div id="servername"></div>
+        <button class="start" onclick="start_server();">start</button>
+    </div>
+</body>
+</html>

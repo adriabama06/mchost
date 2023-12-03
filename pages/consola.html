@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server: ...</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 5%;
+        }
+        .inicio {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            margin-left: 16px;
+        }
+        .inicio:hover {
+            opacity: 0.8;
+        }
+        .options {
+            margin-top: 32px;
+            border: 3px solid #ff339c;
+            width: 7%;
+            position: fixed;
+        }
+        .options a {
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: bold;
+            display: inline-block;
+            color: black;
+            margin-left: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
+        .log {
+            margin-left: 10%;
+            border: 3px solid #808080;
+            background-color: #000000;
+            width: 80%;
+            max-width: 80%;
+            height: 35rem;
+            max-height: 35rem;
+        }
+        .log textarea {
+            position: absolute;
+            width: 70%;
+            height: 3rem;
+            padding-top: 0.2rem;
+            padding-left: 0.5rem;
+            bottom: 0;
+            margin-bottom: 4rem;
+            border: 1px solid #808080;;
+            box-sizing: border-box;
+            font-weight: bold;
+            outline: none;
+            resize: none;
+        }
+        .log button {
+            position: absolute;
+            width: 7%;
+            height: 3rem;
+            margin-top: 32rem;
+            margin-left: 71%;
+            bottom: 0;
+            margin-bottom: 4rem;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            outline: none;
+        }
+        .logarea {
+            width: 100%;
+            height: 33rem;
+            overflow: auto;
+        }
+        .logarea p {
+            margin-top: -10px;
+            color: rgb(255, 255, 255)
+        }
+        @media screen and (max-width: 400px) {
+            body {
+                margin-top: 10%;
+            }
+            .options {
+                top: 120%;
+                left: 10%;
+                border: 3px solid #ff339c;
+                width: 30%;
+                position: absolute;
+            }
+            .log textarea {
+                position: absolute;
+                width: 50%;
+                height: 3rem;
+                padding-top: 0.2rem;
+                padding-left: 0.5rem;
+                bottom: 0;
+                margin-bottom: -3.2rem;
+                box-sizing: border-box;
+            }
+            .log button {
+                position: absolute;
+                width: 23%;
+                height: 3rem;
+                margin-top: 32rem;
+                margin-left: 52%;
+                bottom: 0;
+                margin-bottom: -3.2rem;
+                outline: none;
+            }
+            .inicio {
+                padding: 8px 12px;
+            }
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = io();
+        var servername = (function() {
+            var i = window.location.pathname.split('/');
+            return i[i.length-2];
+        })();
+        function send() {
+            var textcmd = document.getElementById('textcmd').value;
+            if(textcmd === '') {
+                return;
+            };
+            socket.emit('cmd', {name: servername, cmd: textcmd});
+            document.getElementById('textcmd').value = '';
+        };
+        function cmdadd(msg) {
+            var p = document.createElement("p");
+            p.innerHTML = `<p>${msg}</p>`;
+            document.getElementById('logarea').appendChild(p);
+        };
+        window.onload = async function () {
+            document.getElementById('inicio').setAttribute('href', '/servers/'+servername);
+            socket.on('log', async ({name, message}) => {
+                if(name =! servername) {
+                    return;
+                };
+                console.log(message);
+                cmdadd(message);
+            });
+        };
+
+        document.onkeypress = function (e) {
+            if (e.keyCode == 13 && !e.shiftKey) {
+                e.preventDefault();
+                send();
+            };
+        };
+    </script>
+    <a class="inicio" href="/">Inicio</a>
+    <div class="options">
+        <a id="inicio" href="#">Inicio</a>
+        <a href="#">Consola</a>
+    </div>
+    <div class="log" id="log">
+        <div class="logarea" id="logarea">
+            <p></p>
+        </div>
+        <textarea id="textcmd" maxlength="2000" placeholder="Escribe un comando..."></textarea>
+        <button onclick="send();">Enviar</button>
+    </div>
+</body>
+</html>

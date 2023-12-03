@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 10%;
+        }
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            outline: none;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: no-drop;
+            width: 100%;
+            outline: none;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .login {
+            display: none;
+            border: 3px solid #f1f1f1;
+        }
+        @media screen and (max-width: 400px) {
+            body {
+                margin-top: 30%;
+            }
+        }
+        .login {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+        }
+        @keyframes animatezoom {
+            from {
+                transform: scale(0)
+            } 
+            to {
+                transform: scale(1)
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        async function login() {
+            /**
+             * @type {string}
+             **/
+            var user = document.getElementById('user').value;
+            /**
+             * @type {string}
+             **/
+            var pass = document.getElementById('pass').value;
+            user = user.replace(/ /g, '');
+            pass = pass.replace(/ /g, '');
+            if(user === "" || pass === "") {
+                return;
+            };
+            var req = new XMLHttpRequest();
+            req.open('POST', window.location.origin+'/login');
+            //req.open('POST', "https://www.w3schools.com/action_page.php");
+            req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            req.send(JSON.stringify({
+                "user": user,
+                "pass": pass,
+            }));
+
+            function loaded(e) {
+                if(req.response == 'true') {
+                    window.location.href = '/';
+                } else {
+                    window.location.reload();
+                };
+            };
+
+            req.addEventListener("loadend", loaded, false);
+        };
+        window.onload = function (e) {
+            document.getElementById('l').style.display='block';
+            var url = new URL(window.location.href);
+            if(url.searchParams.has('exit')) {
+                window.history.pushState(null, null, window.location.origin+window.location.pathname);
+            };
+        };
+        window.onkeypress = function (e) {
+            if (e.keyCode === 13) {
+            // Cancel the default action, if needed
+            e.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("loginbutton").click();
+  }
+        };
+    </script>
+    <div id="l" class="login">
+        <h1>Usuario</h1>
+        <input onchange="if(this.value.replace(/ /g, '') === '') document.getElementById('loginbutton').style.cursor = 'no-drop'; else document.getElementById('loginbutton').style.cursor = 'pointer'" id="user" placeholder="Usuario..." type="text" required/>
+        <h1>Contraseña</h1>
+        <input onchange="if(this.value.replace(/ /g, '') === '') document.getElementById('loginbutton').style.cursor = 'no-drop'; else document.getElementById('loginbutton').style.cursor = 'pointer'" id="pass" placeholder="Contraseña..." type="password" required/>
+        <button id="loginbutton" onclick="login();" >Login!</button>
+    </div>
+</body>
+</html>

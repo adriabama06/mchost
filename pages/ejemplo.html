@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<head>
+    <title>¿Porque pasa eso?</title>
+    <!--<link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 3rem;
+            font-weight: bold;
+            display: inline-block;
+            line-height: 3rem;
+            margin-left: 10rem;
+            margin-top: 10rem;
+            background-color: #03fca5;
+        }
+        div {
+            margin-bottom: 30rem;
+        }
+        .negro {
+            margin: 0rem 0rem 0rem 0rem;
+            height: 7rem;
+            width: 7rem;
+            background: rgb(0, 0, 0);
+            border-radius: 25%;
+            cursor: help;
+            display: inline-block;
+
+            box-sizing: border-box;
+        }
+        .blanco {
+            margin: 0rem 0rem 0rem 0rem;
+            height: 7rem;
+            width: 7rem;
+            background: rgb(255, 255, 255);
+            border: 0.5rem solid rgb(0, 0, 0);
+            border-radius: 25%;
+            cursor: help;
+            display: inline-block;
+
+            box-sizing: border-box;
+        }
+        .ex {
+            margin: 0rem 0rem 0rem 0rem;
+            height: 7rem;
+            width: 7rem;
+            background: linear-gradient(
+                #fc9003 0%,
+                #03fca5 50%,
+                #be03fc 100%
+            );
+            border-radius: 25%;
+            cursor: help;
+            display: inline-block;
+
+            box-sizing: border-box;
+        }
+        .ex::before {
+            content: 'click!';
+            font-size: 2rem;
+            color: #ffffff;
+            
+            margin-left: 1rem;
+            position: relative;
+            top: 1.5rem;
+        }
+
+        @media only screen and (max-width: 1280px) {
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 2.7rem;
+                font-weight: bold;
+                display: inline-block;
+                line-height: 2.7rem;
+                margin-left: 10rem;
+                margin-top: 12rem;
+                background-color: #03fc18;
+            }
+            div {
+                margin-bottom: 20rem;
+            }
+            .negro {
+                margin: 0rem 0rem 0rem 0rem;
+                height: 8rem;
+                width: 8rem;
+                background: rgb(0, 0, 0);
+                border-radius: 25%;
+                cursor: help;
+                display: inline-block;
+
+                box-sizing: border-box;
+            }
+            .blanco {
+                margin: 0rem 0rem 0rem 0rem;
+                height: 8rem;
+                width: 8rem;
+                background: rgb(255, 255, 255);
+                border: 0.5rem solid rgb(0, 0, 0);
+                border-radius: 25%;
+                cursor: help;
+                display: inline-block;
+
+                box-sizing: border-box;
+            }
+            .ex {
+                margin: 0rem 0rem 0rem 0rem;
+                height: 8rem;
+                width: 8rem;
+                background: linear-gradient(
+                    #fc9003 0%,
+                    #03fca5 50%,
+                    #be03fc 100%
+                );
+                border-radius: 25%;
+                cursor: help;
+                display: inline-block;
+
+                box-sizing: border-box;
+            }
+            .ex::before {
+                content: 'click!';
+                font-size: 2.5rem;
+                color: #ffffff;
+                margin-left: 1rem;
+                position: relative;
+                right: 0.1rem;
+                top: 3rem;
+            }
+        }
+
+        @media only screen and (max-width: 400px) {
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1.3rem;
+                font-weight: bold;
+                display: inline-block;
+                line-height: 1.3rem;
+                margin-left: 3rem;
+                margin-top: 10rem;
+                background-color: #fcd703;
+            }
+            div {
+                margin-bottom: 13rem;
+            }
+            .negro {
+                margin: 0rem 0rem 0rem 0rem;
+                height: 4rem;
+                width: 4rem;
+                background: rgb(0, 0, 0);
+                border-radius: 25%;
+                cursor: help;
+                display: inline-block;
+
+                box-sizing: border-box;
+            }
+            .blanco {
+                margin: 0rem 0rem 0rem 0rem;
+                height: 4rem;
+                width: 4rem;
+                background: rgb(255, 255, 255);
+                border: 0.3rem solid rgb(0, 0, 0);
+                border-radius: 25%;
+                cursor: help;
+                display: inline-block;
+
+                box-sizing: border-box;
+            }
+            .ex {
+                margin: 0rem 0rem 0rem 0rem;
+                height: 4rem;
+                width: 4rem;
+                background: linear-gradient(
+                    #fc9003 0%,
+                    #03fca5 50%,
+                    #be03fc 100%
+                );
+                border-radius: 25%;
+                cursor: help;
+                display: inline-block;
+
+                box-sizing: border-box;
+            }
+            .ex::before {
+                content: 'click!';
+                font-size: 1.1rem;
+                color: #000000;
+                margin-left: 1rem;
+                position: relative;
+                right: 0.4rem;
+                top: 1.1rem;
+            }
+        };
+    </style>
+    <div>
+        <p><div class="negro"></div> >>> RGB: 0, 0, 0</p>
+        <p>1 pixel negro = 0 bytes (en 8 bits normalmente)</p>
+        <p>0 = 0 bytes</p>
+    </div>
+    <div>
+        <p><div class="blanco"></div> >>> RGB: 255, 255, 255</p>
+        <p>1 pixel blanco = 11111111 bytes (en 8 bits normalmente)</p>
+        <p>1 = 11111111 bytes</p>
+    </div>
+    <div>
+        <div style="cursor: pointer;" onclick="window.open('https:\/\/htmlcolorcodes.com/es/', '_blank')" class="ex"></div>
+        <p>Explicacion:</p>
+        <p>0 = 0 en bytes</p>
+        <p>1 = 1 en bytes</p>
+        <p>¿ Todo ok ? ¿No?</p>
+        <p>¿Entonces 2 sera 2 no ?</p>
+        <p>¡ Pues no !</p>
+        <p>2 = 10</p>
+        <p>3 = 11</p>
+        <p>4 = 100</p>
+        <p>5 = 101</p>
+        <p>6 = 111</p>
+        <p>... = ...</p>
+        <p>255 = 11111111</p>
+        <p>255*(1920*1080)*3 = 1586304000 pixeles de color blanco</p>
+        <p>11111111*(1920*1080)*3 = 69119999308800 en bytes de color blanco</p>
+    </div>
+</body>
+</html>
